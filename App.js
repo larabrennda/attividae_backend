@@ -1,11 +1,34 @@
-// server.mjs
 import { createServer } from 'node:http';
+
+import { listarCliente, incluirCliente, atualizarCliente, removerCliente } from './clienteService.js';
+
 const server = createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World!\n');
+  const url = req.url;
+
+  if (url === "/listar") {
+    res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
+    res.write(listarCliente());
+  } 
+  else if (url === "/incluir") {
+    res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
+    res.write(incluirCliente());
+  } 
+  else if (url === "/atualizar") {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    res.write(atualizarCliente());
+  } 
+  else if (url === "/remover") {
+    res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});
+    res.write(removerCliente());
+  } 
+  else {
+    res.writeHead(404, {"Content-Type": "text/plain; charset=utf-8"});
+    res.write("Rota não encontrada.");
+  }
+
+  res.end();
 });
-// starts a simple http server locally on port 3000
+
 server.listen(3000, '127.0.0.1', () => {
-  console.log('Listening on 127.0.0.1:3000');
+  console.log('Servidor rodando em http://127.0.0.1:3000');
 });
-// run with `node server.mjs`
